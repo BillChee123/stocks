@@ -1,0 +1,27 @@
+{
+  "name": "stocks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "frontend": "npm start --prefix frontend",
+    "server": "nodemon server.js",
+    "dev": "concurrently \"npm run server\" \"npm run frontend\""
+  },
+  "author": "bill chee",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "babel-cli": "^6.26.0",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.18",
+    "nodemon": "^2.0.4",
+    "react-bootstrap": "^1.0.1",
+    "react-modal": "^3.11.2",
+    "react-router-dom": "^5.2.0"
+  }
+}
