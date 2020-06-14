@@ -1,17 +1,32 @@
-console.log("Hello World")
+require('dotenv').config();
 
-const mongoDB = require('mongodb');
+const cors = require('cors');
 
-const MongoClient = mongoDB.MongoClient;
+const express = require('express');
+const mongoose = require('mongoose');
+const bookmarks = require('./routes/api/bookmarks');
 
-const uri = "mongodb+srv://billchee:<password>@cluster0-dq8sd.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const app = express();
 
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// Use CORS
+app.use(cors());
 
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  console.log("MongoDB Connected")
-  console.log(process.env.DOCKER_NETWORK)
-  client.close();
-});
+// Use Routes
+app.use('/api/bookmarks', bookmarks);
+
+// DB Config
+const db = process.env.MONGO_URI;
+
+// Connect to Mongo
+mongoose
+	.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, serverSelectionTimeoutMS: 5000 })
+	.then(() => {
+    console.log('MongoDB Connected')
+  })
+	.catch(err => console.log(err));
+
+
+app.listen(process.env.SERVER_PORT, () =>
+  console.log(`Server listening on port ${process.env.SERVER_PORT}`)
+);
+
