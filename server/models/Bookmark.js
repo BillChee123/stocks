@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Declare Bookmark Schema
-const Bookmark = new Schema({
+const BookmarkSchema = new Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        unique: [true, "Title must be unique"]
     },
     created_at: {
         type: Date,
@@ -22,8 +23,4 @@ const Bookmark = new Schema({
     }
 });
 
-// Other types:
-// Boolean
-// Number
-
-module.exports = mongoose.model('Bookmark', Bookmark);
+module.exports = mongoose.model('Bookmark', BookmarkSchema);

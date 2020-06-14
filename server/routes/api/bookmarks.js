@@ -1,39 +1,35 @@
-// Importing important packages
 const express = require('express');
 
 const bodyParser = require('body-parser');
 
-// Create an Express route
+// Create a bookmark route
 const bookmarkRoute = express.Router();
-
-// create application/json parser
-const jsonParser = bodyParser.json();
 
 // Bookmark Schema
 let bookmarkSchema = require ('../../models/Bookmark');
 
 // To Get List Of Bookmarks
 bookmarkRoute.route('/').get(function (req, res) {
-	bookmarkSchema.find(function (err, bookmark) {
+	bookmarkSchema.find(function (err, bookmarkList) {
 		if (err) {
 			console.log(err);
+			res.status(400).json(err);
 		}
 		else {
-			res.json(bookmark);
+			res.json(bookmarkList);
 		}
 	});
 });
 
 // To Add New Bookmark
-bookmarkRoute.route('/').post(jsonParser, function (req, res) {
-    console.log(req.body)
+bookmarkRoute.route('/').post(function (req, res) {
 	let bookmark = new bookmarkSchema(req.body);
 	bookmark.save()
 	.then(game => {
 		res.status(200).json({ 'bookmark': 'Bookmark Created Successfully' });
 	})
 	.catch(err => {
-		res.status(400).send(err);
+		res.status(400).json(err.message);
 	});
 });
 
@@ -46,11 +42,11 @@ bookmarkRoute.route('/:id').get(function (req, res) {
 });
 
 // To Update The Bookmark Details
-bookmarkRoute.route('/:id').put(jsonParser, function (req, res) {
+bookmarkRoute.route('/:id').put(function (req, res) {
     const bookmarkID = req.params.id
 	bookmarkSchema.findById(bookmarkID, function (err, bookmark) {
         if (!bookmark)
-            res.status(400).send(`bookmark with id ${bookmarkID} does not exist.`);
+            res.status(400).json(`bookmark with id ${bookmarkID} does not exist.`);
 		else {
 			bookmark.title = req.body.title;
 			bookmark.updated_at = Date.now;
@@ -60,7 +56,7 @@ bookmarkRoute.route('/:id').put(jsonParser, function (req, res) {
 				res.json('Bookmark Updated Successfully');
 			})
 			.catch(err => {
-				res.status(400).send(`Unable To Update Bookmark: \n${err}`);
+				res.status(400).json(err);
 			});
 		}
 	});
@@ -76,6 +72,18 @@ bookmarkRoute.route('/:id').delete(function (req, res) {
         } else {
             res.json('Bookmark Deleted Successfully');
         }
+	});
+});
+
+// To Delete all Bookmarks
+bookmarkRoute.route('/').delete(function (req, res) {
+	bookmarkSchema.remove({}, function (err) {
+        if (err) {
+            res.json(err);
+		}
+		else {
+			res.json('All Bookmarks Deleted Successfully');
+		}
 	});
 });
 

@@ -39,6 +39,10 @@ Road map:
 
 - Set up the MongoDB key in .env file.
 
+## Code Styles
+
+- [Link to Javascript Documentation style](https://gomakethings.com/whats-the-best-way-to-document-javascript/)
+
 ## Third party libraries used
 
 ### Backend
