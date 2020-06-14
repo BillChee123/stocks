@@ -11,6 +11,10 @@ node_modules
 # production
 /build
 
+# secrets
+secrets.txt
+.env
+
 # misc
 .DS_Store
 .env.local
