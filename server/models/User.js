@@ -32,7 +32,7 @@ const UserSchema = new Schema({
  *  - https://stackoverflow.com/questions/14588032/mongoose-password-hashing
  *  - https://www.mongodb.com/blog/post/password-authentication-with-mongoose-part-1
  */
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function(next) {
     var user = this;
 
     const SALT_WORK_FACTOR = 10;

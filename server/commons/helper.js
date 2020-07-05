@@ -1,3 +1,5 @@
+const { verify, sign } = require("jsonwebtoken");
+
 /**
  * Citation:
  *  - https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
@@ -32,7 +34,46 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+function isAuth(req) {
+    const authorization = req.headers['authorization'];
+    if (!authorization) throw new Error("You need to login");
+    const token = authorization.split(' ')[1];
+    const { userId } = verify(token, process.env.ACCESS_TOKEN_SECRET);
+    return userId
+}
+
+const createAccessToken = (userId) => {
+    return sign({ userId }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '15m',
+    })
+};
+
+const createRefreshToken = (userId) => {
+    return sign({ userId }, process.env.REFRESH_TOKEN_SECRET, {
+        expiresIn: '7d',
+    })
+};
+
+const sendAccessToken = (res, req, accesstoken) => {
+    res.send({
+        accesstoken,
+        email: req.body.email
+    })
+}
+
+const sendRefreshToken = (res, refreshToken) => {
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        path: '/refresh_token'
+    })
+}
+
 module.exports = {
-    validateEmail,
     sha256,
+    validateEmail,
+    isAuth,
+    createAccessToken,
+    createRefreshToken,
+    sendAccessToken,
+    sendRefreshToken,
 }

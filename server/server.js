@@ -24,7 +24,6 @@ app.use(express.urlencoded({ extended: true })); // support URL-encoded bodies
 app.use('/api/bookmarks', bookmarks);
 app.use('/api/users', users);
 
-
 // DB Config
 const db = process.env.MONGO_URI;
 
