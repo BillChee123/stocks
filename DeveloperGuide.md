@@ -54,6 +54,7 @@
 - PassportJS (Authentication)
 - moment.js (datetime library)
 - Boom (Hapi) (Error handling)
+  - [Documentation Link](https://hapi.dev/tutorials/expresstohapi/?lang=en_US#-error-handling---boom)
 
 ### Frontend
 
