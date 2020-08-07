@@ -50,6 +50,10 @@
   - Rationale:
     - We want to pass data via `req.body`.
   - [Documentation Link](https://www.npmjs.com/package/body-parser)
+- Sequelize (ORM)
+- PassportJS (Authentication)
+- moment.js (datetime library)
+- Boom (Hapi) (Error handling)
 
 ### Frontend
 
